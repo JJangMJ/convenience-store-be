@@ -3,15 +3,14 @@ package conveniencestore.service;
 import conveniencestore.domain.Order;
 import conveniencestore.domain.Product;
 import conveniencestore.dto.order.OrderCreateRequest;
+import conveniencestore.dto.order.OrderCreateResponse;
 import conveniencestore.dto.order.OrderItemRequest;
 import conveniencestore.repository.OrderRepository;
 import conveniencestore.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -19,7 +18,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void createOrder(OrderCreateRequest request) {
+    public OrderCreateResponse createOrder(OrderCreateRequest request) {
         int originalTotalAmount = 0;
         int promotionDiscountAmount = 0;
         int membershipDiscountAmount = 0;
@@ -37,5 +36,8 @@ public class OrderService {
 
         Order order = Order.createOrder(originalTotalAmount, promotionDiscountAmount, membershipDiscountAmount);
         orderRepository.save(order);
+
+        return new OrderCreateResponse(order.getId(), order.getOriginalTotalAmount(),
+                order.getPromotionDiscountAmount(), order.getMembershipDiscountAmount(), order.getFinalTotalAmount());
     }
 }
