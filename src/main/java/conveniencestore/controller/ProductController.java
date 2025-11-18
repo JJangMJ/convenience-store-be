@@ -15,7 +15,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/api/products")
-    public ResponseEntity<ApiResult<ProductSearchResponse>> getProducts() {
+    public ResponseEntity<ApiResult<List<ProductSearchResponse>>> getProducts() {
         List<ProductSearchResponse> products = productService.findProducts();
         return ResponseEntity.ok(ApiResult.of("SUCCESS_GET_PRODUCTS", "상품 목록을 가져오는 데 성공했습니다.", products));
     }
