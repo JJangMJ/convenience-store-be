@@ -23,10 +23,13 @@ public class ProductService {
         return products.stream()
                 .map(product -> {
                     boolean isSoldOut = product.getQuantity() <= 0;
-                    Promotion promotion = promotionRepository.findByName(product.getPromotionName()).get();
-                    PromotionSearchResponse promotionSearchResponse = new PromotionSearchResponse(promotion.getName(),
-                            promotion.getBuyQuantity(),
-                            promotion.getGetQuantity(), promotion.getStartDate(), promotion.getEndDate());
+                    Promotion promotion = promotionRepository.findByName(product.getPromotionName()).orElse(null);
+                    PromotionSearchResponse promotionSearchResponse = null;
+                    if (promotion != null) {
+                        promotionSearchResponse = new PromotionSearchResponse(promotion.getName(),
+                                promotion.getBuyQuantity(),
+                                promotion.getGetQuantity(), promotion.getStartDate(), promotion.getEndDate());
+                    }
 
                     return new ProductSearchResponse(
                             product.getId(),
