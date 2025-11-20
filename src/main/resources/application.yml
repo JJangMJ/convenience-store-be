@@ -2,7 +2,18 @@ spring:
   application:
     name: convenience_store_server
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/convenience_db
-    username: root
-    password: entmdtkdnsk1679!
+    url: jdbc:h2:mem:convenience_db;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/convenience_db
+#    username: root
+#    password: entmdtkdnsk1679!
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  h2:
+    console:
+      enabled: false
